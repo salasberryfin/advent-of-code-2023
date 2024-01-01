@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 )
 
 func getCalibrationPart1(filename string) int {
@@ -22,6 +23,37 @@ func getCalibrationPart1(filename string) int {
 			}
 		}
 		calibration += numbers[0]*10 + numbers[len(numbers)-1]
+	}
+
+	fmt.Println("Calibration: ", calibration)
+
+	return calibration
+}
+
+func getCalibrationPart2(filename string) int {
+	content, err := readFromFile(filename)
+	if err != nil {
+		log.Fatalf("readLines: %s", err)
+	}
+	wordsMap := map[string]string{
+		"one":   "1",
+		"two":   "2",
+		"three": "3",
+		"four":  "4",
+		"five":  "5",
+		"six":   "6",
+		"seven": "7",
+		"eight": "8",
+		"nine":  "9",
+	}
+	var calibration int
+
+	for _, line := range content {
+		fmt.Println("line:", line)
+		for digit, word := range wordsMap {
+			line = strings.Replace(line, digit, word, -1)
+		}
+		fmt.Println("new line:", line)
 	}
 
 	fmt.Println("Calibration: ", calibration)
