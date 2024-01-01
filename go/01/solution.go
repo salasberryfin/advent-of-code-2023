@@ -7,15 +7,26 @@ import (
 	"os"
 )
 
-func main() {
-	content, err := readFromFile("./test_input")
+func getCalibrationPart1(filename string) int {
+	content, err := readFromFile(filename)
 	if err != nil {
 		log.Fatalf("readLines: %s", err)
 	}
-	fmt.Println(content)
+	var calibration int
 	for _, line := range content {
-		// numbers are bytes 48-57 (0-9)
+		// numbers are bytes 49-57 (1-9)
+		var numbers []int
+		for i := 0; i < len(line); i++ {
+			if line[i] >= 49 && line[i] <= 57 {
+				numbers = append(numbers, int(line[i])-48)
+			}
+		}
+		calibration += numbers[0]*10 + numbers[len(numbers)-1]
 	}
+
+	fmt.Println("Calibration: ", calibration)
+
+	return calibration
 }
 
 func readFromFile(path string) ([]string, error) {
